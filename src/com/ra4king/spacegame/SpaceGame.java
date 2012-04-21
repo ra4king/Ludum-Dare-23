@@ -21,7 +21,12 @@ public class SpaceGame extends Game {
 	@Override
 	protected void initGame() {
 		try {
-			getArt().add("background.jpg");
+			//getArt().add("background.jpg");
+			//getArt().add("background.png");
+			getArt().add("layer1.png");
+			getArt().add("layer2.png");
+			getArt().add("layer3.png");
+			getArt().add("layer4.png");
 		}
 		catch(Exception exc) {
 			exc.printStackTrace();

@@ -35,7 +35,15 @@ public class Background extends GameComponent {
 		AffineTransform old = g.getTransform();
 		g.setTransform(new AffineTransform());
 		
-		//g.drawImage(getParent().getGame().getArt().get("background"),0,0,getParent().getWidth(),getParent().getHeight(),null);
+		g.drawImage(getParent().getGame().getArt().get("layer1"),(int)Math.round((player.getCenterX()%24000) * -0.4), (int)Math.round(player.getCenterY() * -0.4),null);
+		g.drawImage(getParent().getGame().getArt().get("layer2"),(int)Math.round((player.getCenterX()%24000) * -0.5), (int)Math.round(player.getCenterY() * -0.5),null);
+		g.drawImage(getParent().getGame().getArt().get("layer3"),(int)Math.round((player.getCenterX()%24000) * -0.6), (int)Math.round(player.getCenterY() * -0.6),null);
+		g.drawImage(getParent().getGame().getArt().get("layer4"),(int)Math.round((player.getCenterX()%24000) * -0.7), (int)Math.round(player.getCenterY() * -0.7),null);
+		
+		g.drawImage(getParent().getGame().getArt().get("layer1"),(int)Math.round((player.getCenterX()%24000) * -0.4 - 2400), (int)Math.round(player.getCenterY() * -0.4 - 1500),null);
+		g.drawImage(getParent().getGame().getArt().get("layer2"),(int)Math.round((player.getCenterX()%24000) * -0.5 - 2400), (int)Math.round(player.getCenterY() * -0.5 - 1500),null);
+		g.drawImage(getParent().getGame().getArt().get("layer3"),(int)Math.round((player.getCenterX()%24000) * -0.6 - 2400), (int)Math.round(player.getCenterY() * -0.6 - 1500),null);
+		g.drawImage(getParent().getGame().getArt().get("layer4"),(int)Math.round((player.getCenterX()%24000) * -0.7 - 2400), (int)Math.round(player.getCenterY() * -0.7 - 1500),null);
 		
 		for(Star s : stars)
 			s.draw(g);
