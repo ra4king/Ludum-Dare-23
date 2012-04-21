@@ -27,6 +27,9 @@ public class Player extends GameComponent {
 			setY(getY() - dist);
 		if(i.isKeyDown(KeyEvent.VK_DOWN))
 			setY(getY() + dist);
+		
+		getParent().setXOffset(-getCenterX() + getParent().getWidth()/2);
+		getParent().setYOffset(-getCenterY() + getParent().getHeight()/2);
 	}
 	
 	@Override
