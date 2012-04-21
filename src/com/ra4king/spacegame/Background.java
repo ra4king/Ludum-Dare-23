@@ -34,8 +34,12 @@ public class Background extends GameComponent {
 	public void draw(Graphics2D g) {
 		AffineTransform old = g.getTransform();
 		g.setTransform(new AffineTransform());
+		
+		//g.drawImage(getParent().getGame().getArt().get("background"),0,0,getParent().getWidth(),getParent().getHeight(),null);
+		
 		for(Star s : stars)
 			s.draw(g);
+		
 		g.setTransform(old);
 	}
 	

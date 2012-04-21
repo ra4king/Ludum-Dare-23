@@ -20,6 +20,13 @@ public class SpaceGame extends Game {
 	
 	@Override
 	protected void initGame() {
+		try {
+			getArt().add("background.jpg");
+		}
+		catch(Exception exc) {
+			exc.printStackTrace();
+		}
+		
 		setScreen("Space",new Space());
 	}
 	
