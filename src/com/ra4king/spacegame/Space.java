@@ -12,6 +12,10 @@ public class Space extends GameWorld {
 	public Space() {
 	}
 	
+	public Player getPlayer() {
+		return player;
+	}
+	
 	public void init(Game game) {
 		super.init(game);
 		
