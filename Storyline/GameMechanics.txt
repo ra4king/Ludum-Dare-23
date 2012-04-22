@@ -1,0 +1,22 @@
+//*******************************************************************************************************************
+* Author : razorquick
+* Version :  1.0.0
+* Date : 22nd Aug 2012
+* email : razor_quick@yahoo.com
+* Copyright : razorquick 
+*********************************************************************************************************************/
+//planets
+TODO _ 
+//user
+	TODO _ add more stuff 
+	the planet seem to drag across ;
+	need more fluidity [ realness in movement]
+	
+	need to implement wasd key bindings for the user to move 
+
+//ingame Cutscenes
+	Need to implement cutscenes .lots of em ! 
+	
+	
+	
+ 
