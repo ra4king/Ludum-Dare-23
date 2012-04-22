@@ -12,6 +12,8 @@ import com.ra4king.spacegame.resources.ResourceBank;
 
 public class Player extends GameComponent {
 	private ResourceBank resources;
+	private final double acceleration = 1000, maxSpeed = 500, resistance = 100;
+	private double vx, vy;
 	
 	public Player() {
 		super(50,50,48,48);
@@ -23,14 +25,22 @@ public class Player extends GameComponent {
 	public void update(long deltaTime) {
 		Input i = getParent().getGame().getInput();
 		
-		double dist = 300 * deltaTime / 1e9;
+		double accel = acceleration * deltaTime / 1e9;
+		double resist = resistance * deltaTime / 1e9; 
 		
 		double oldX = getX(), oldY = getY();
 		
 		if(i.isKeyDown(KeyEvent.VK_LEFT))
-			setX(getX() - dist);
+			vx = Math.max(vx - accel, -maxSpeed);
 		if(i.isKeyDown(KeyEvent.VK_RIGHT))
-			setX(getX() + dist);
+			vx = Math.min(vx + accel, maxSpeed);
+		
+		if(vx > 0)
+			vx = Math.max(vx - resist, 0);
+		if(vx < 0)
+			vx = Math.min(vx + resist, 0);
+		
+		setX(getX() + vx * deltaTime / 1e9);
 		
 		Planet planet = null;
 		
@@ -38,6 +48,7 @@ public class Player extends GameComponent {
 			if(e instanceof Planet && distanceSquared(e,this) < ((e.getWidth() + getWidth())/2) * ((e.getWidth() + getWidth())/2)) {
 				planet = (Planet)e;
 				setX(oldX);
+				vx = 0;
 				break;
 			}
 		
@@ -45,9 +56,16 @@ public class Player extends GameComponent {
 			pillagePlanet(planet);
 		
 		if(i.isKeyDown(KeyEvent.VK_UP))
-			setY(getY() - dist);
+			vy = Math.max(vy - accel, -maxSpeed);
 		if(i.isKeyDown(KeyEvent.VK_DOWN))
-			setY(getY() + dist);
+			vy = Math.min(vy + accel, maxSpeed);
+		
+		if(vy > 0)
+			vy = Math.max(vy - resist, 0);
+		if(vy < 0)
+			vy = Math.min(vy + resist, 0);
+		
+		setY(getY() + vy * deltaTime / 1e9);
 		
 		Planet planet2 = null;
 		
@@ -55,6 +73,7 @@ public class Player extends GameComponent {
 			if(e instanceof Planet && distanceSquared(e,this) < ((e.getWidth() + getWidth())/2) * ((e.getWidth() + getWidth())/2)) {
 				planet2 = (Planet)e;
 				setY(oldY);
+				vy = 0;
 				break;
 			}
 		
@@ -63,6 +82,8 @@ public class Player extends GameComponent {
 		
 		getParent().setXOffset(-getCenterX() + getParent().getWidth()/2);
 		getParent().setYOffset(-getCenterY() + getParent().getHeight()/2);
+		
+		System.out.println(vx + " " + vy);
 	}
 	
 	private void pillagePlanet(Planet planet) {

@@ -23,7 +23,7 @@ public class Background extends GameComponent {
 		super.init(space);
 		
 		for(int a = 1; a < 5; a++)
-			if(a != 2)
+			if(a == 1 || a == 4)
 				layers.add(new Layer("layer" + a,0,0,0.1 + a/10.0));
 		
 		for(int a = 0; a < 300; a++)
