@@ -15,8 +15,10 @@ TODO _
 	need to implement wasd key bindings for the user to move 
 
 //ingame Cutscenes
-	Need to implement cutscenes .lots of em ! 
-	
+	Need to implement cutscenes .lots of em ! and the game mechanics 
+	we cant let the game end if this is ont setup 
+	also we need proper intro scenes 
+	currently the user is pushed directly into the game witout the head or the tail 
 	
 	
  
