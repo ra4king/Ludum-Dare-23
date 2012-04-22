@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import com.ra4king.gameutils.gameworld.GameComponent;
 import com.ra4king.gameutils.gameworld.GameWorld;
-import com.ra4king.gameutils.util.Bag;
 
 public class Background extends GameComponent {
 	private ArrayList<Layer> layers;
@@ -23,8 +22,9 @@ public class Background extends GameComponent {
 	public void init(GameWorld space) {
 		super.init(space);
 		
-		for(int a = 0; a < 4; a++)
-			layers.add(new Layer("layer" + a,0,0,0.2 + a/10.0));
+		for(int a = 1; a < 5; a++)
+			if(a != 2)
+				layers.add(new Layer("layer" + a,0,0,0.1 + a/10.0));
 		
 		for(int a = 0; a < 300; a++)
 			stars.add(new Star(Math.random() * (space.getWidth()+200) - 100, Math.random() * (space.getHeight()+200) - 100, 1 + Math.random() * 2, 0.2 + Math.random() * 0.3));
@@ -43,6 +43,8 @@ public class Background extends GameComponent {
 	public void draw(Graphics2D g) {
 		AffineTransform old = g.getTransform();
 		g.setTransform(new AffineTransform());
+		
+		g.drawImage(getParent().getGame().getArt().get("background"), 0, 0, null);
 		
 		for(Layer l : layers)
 			l.draw(g);
