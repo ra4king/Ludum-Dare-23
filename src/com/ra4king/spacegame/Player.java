@@ -10,7 +10,7 @@ import com.ra4king.gameutils.gameworld.GameComponent;
 
 public class Player extends GameComponent {
 	public Player() {
-		super(50,50,50,50);
+		super(50,50,48,48);
 	}
 	
 	@Override
@@ -54,7 +54,8 @@ public class Player extends GameComponent {
 	
 	@Override
 	public void draw(Graphics2D g) {
-		g.setColor(Color.red);
-		g.fillOval(getIntX(),getIntY(),getIntWidth(),getIntHeight());
+		//g.setColor(Color.red);
+		//g.fillOval(getIntX(),getIntY(),getIntWidth(),getIntHeight());
+		g.drawImage(getParent().getGame().getArt().get("robot"),getIntX(),getIntY(),getIntWidth(),getIntHeight(),Color.red,null);
 	}
 }

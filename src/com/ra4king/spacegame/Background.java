@@ -3,22 +3,28 @@ package com.ra4king.spacegame;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
 
 import com.ra4king.gameutils.gameworld.GameComponent;
 import com.ra4king.gameutils.gameworld.GameWorld;
 import com.ra4king.gameutils.util.Bag;
 
 public class Background extends GameComponent {
-	private Bag<Star> stars;
+	private ArrayList<Layer> layers;
+	private ArrayList<Star> stars;
 	private Player player;
 	
 	public Background(Player player) {
-		stars = new Bag<Star>();
+		layers = new ArrayList<Layer>();
+		stars = new ArrayList<Star>();
 		this.player = player;
 	}
 	
 	public void init(GameWorld space) {
 		super.init(space);
+		
+		for(int a = 0; a < 4; a++)
+			layers.add(new Layer("layer" + a,0,0,0.2 + a/10.0));
 		
 		for(int a = 0; a < 300; a++)
 			stars.add(new Star(Math.random() * (space.getWidth()+200) - 100, Math.random() * (space.getHeight()+200) - 100, 1 + Math.random() * 2, 0.2 + Math.random() * 0.3));
@@ -26,6 +32,9 @@ public class Background extends GameComponent {
 	
 	@Override
 	public void update(long deltaTime) {
+		for(Layer l : layers)
+			l.update();
+		
 		for(Star s : stars)
 			s.update();
 	}
@@ -35,15 +44,8 @@ public class Background extends GameComponent {
 		AffineTransform old = g.getTransform();
 		g.setTransform(new AffineTransform());
 		
-		g.drawImage(getParent().getGame().getArt().get("layer1"),(int)Math.round((player.getCenterX()%24000) * -0.4), (int)Math.round(player.getCenterY() * -0.4),null);
-		g.drawImage(getParent().getGame().getArt().get("layer2"),(int)Math.round((player.getCenterX()%24000) * -0.5), (int)Math.round(player.getCenterY() * -0.5),null);
-		g.drawImage(getParent().getGame().getArt().get("layer3"),(int)Math.round((player.getCenterX()%24000) * -0.6), (int)Math.round(player.getCenterY() * -0.6),null);
-		g.drawImage(getParent().getGame().getArt().get("layer4"),(int)Math.round((player.getCenterX()%24000) * -0.7), (int)Math.round(player.getCenterY() * -0.7),null);
-		
-		g.drawImage(getParent().getGame().getArt().get("layer1"),(int)Math.round((player.getCenterX()%24000) * -0.4 - 2400), (int)Math.round(player.getCenterY() * -0.4 - 1500),null);
-		g.drawImage(getParent().getGame().getArt().get("layer2"),(int)Math.round((player.getCenterX()%24000) * -0.5 - 2400), (int)Math.round(player.getCenterY() * -0.5 - 1500),null);
-		g.drawImage(getParent().getGame().getArt().get("layer3"),(int)Math.round((player.getCenterX()%24000) * -0.6 - 2400), (int)Math.round(player.getCenterY() * -0.6 - 1500),null);
-		g.drawImage(getParent().getGame().getArt().get("layer4"),(int)Math.round((player.getCenterX()%24000) * -0.7 - 2400), (int)Math.round(player.getCenterY() * -0.7 - 1500),null);
+		for(Layer l : layers)
+			l.draw(g);
 		
 		for(Star s : stars)
 			s.draw(g);
@@ -77,6 +79,37 @@ public class Background extends GameComponent {
 		public void draw(Graphics2D g) {
 			g.setColor(Color.white);
 			g.fillOval((int)Math.round(x - player.getCenterX() * speed), (int)Math.round(y - player.getCenterY() * speed), size, size);
+		}
+	}
+	
+	private class Layer {
+		private String name;
+		private double x, y, speed;
+		
+		public Layer(String name, double x, double y, double speed) {
+			this.name = name;
+			this.x = x;
+			this.y = y;
+			this.speed = speed;
+		}
+		
+		public void update() {
+			if(x + 2400 - player.getCenterX() * speed < 0)
+				x += 2400;
+			if(x - player.getCenterX() * speed >= 0)
+				x -= 2400;
+			
+			if(y + 1500 - player.getCenterY() * speed < 0)
+				y += 1500;
+			if(y - player.getCenterY() * speed >= 0)//getParent().getHeight())
+				y -= 1500;
+		}
+		
+		public void draw(Graphics2D g) {
+			g.drawImage(getParent().getGame().getArt().get(name),(int)Math.round(x - player.getCenterX() * speed), (int)Math.round(y - player.getCenterY() * speed),null);
+			g.drawImage(getParent().getGame().getArt().get(name),(int)Math.round(x + 2400 - player.getCenterX() * speed), (int)Math.round(y - player.getCenterY() * speed),null);
+			g.drawImage(getParent().getGame().getArt().get(name),(int)Math.round(x - player.getCenterX() * speed), (int)Math.round(y + 1500 - player.getCenterY() * speed),null);
+			g.drawImage(getParent().getGame().getArt().get(name),(int)Math.round(x + 2400 - player.getCenterX() * speed), (int)Math.round(y + 1500 - player.getCenterY() * speed),null);
 		}
 	}
 }

@@ -23,6 +23,7 @@ public class SpaceGame extends Game {
 		try {
 			//getArt().add("background.jpg");
 			//getArt().add("background.png");
+			getArt().add("robot.png");
 			getArt().add("layer1.png");
 			getArt().add("layer2.png");
 			getArt().add("layer3.png");
