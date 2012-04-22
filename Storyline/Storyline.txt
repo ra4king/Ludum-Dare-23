@@ -1,0 +1,57 @@
+//*******************************************************************************************************************
+* Author : razorquick
+* Version :  1.0.0
+* Date : 22nd Aug 2012
+* email : razor_quick@yahoo.com
+* Copyright : razorquick 
+*********************************************************************************************************************/
+
+//Authors note : 
+This game is created for LD23 Jam with the theme of "tiny world". 
+The idea originally was to make a robot blow up planets thought over by djdduty and ra4king told to me by them. I find 
+severe emptiness in the plot so I decided to write a complete story filled with all the bells and whistles! Filling it 
+to the level I think should be acceptable. So enough of me babbling read on , 
+
+//This is the background story : 
+	There was a tiny planet in the vast expanse of the universe. A fairly beautiful one I must add as there was a robot 
+who used to work there to tend to it, The creator of the robot is unknown for all robots come with a manufacture's seal 
+but this one did not ! 
+	He used to tend to all the passengers who used to visit his planet, but not many were kind to him. "Must be the vast 
+emptiness of the space which hurt the travellers" he thought. 
+	For years, could be centuries, passed by and his tiny planet was forgotten In the rush of time. His Planet today was  
+desolete and unkept,  for travellers have long forgotten the planet and our robot has grown weak and frail, in his memory 
+a new program is created what we humans refer to  as resentment and hate. He vowed to grow stronger and make his planet 
+the most successful and the biggest of them all. 
+	He finds a way when a accident bound ship lands to the surface of his planet. He takes it over by force, and so 
+begins his journey on a path which is fuelled by the contempt in his memory.
+
+//Gameplay 
+	Game begins with the user being shown screens stating the back story. The user has to fight various planets with his 
+Available resources. On victory he is provided with the resources from the destroyed planet
+
+the resources are : 
+oil <nuclear stuff ?
+wood 
+stone
+metal
+slaves 
+
+//mechanics [ to be reviewed ] 
+
+slaves + stone + wood = upgrade planet
+metal + slaves = upgrade ship
+metal + wood + oil + slaves = make new ships
+oil = fuel
+
+   The game ends when the user planet is blown to pieces, or he successfully clears the field of planets. 
+ 
+
+//end Story [ grave Spoilers### ]
+
+	The planets are done for the robot has won. his planet is the most resource full and the biggest in the universe 
+but sadly it is the only planet left. His slaves die in the last battle of universe. He stands there as the victor 
+He gets the world to see the might of his planet. 
+	Yet after the victory He stands All alone, single, like they way He started on his tiny World  in the vast expanse
+of the Universe.
+	
+	
