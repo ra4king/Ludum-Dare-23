@@ -7,7 +7,7 @@ import com.ra4king.gameutils.Game;
 
 public class SpaceGame extends Game {
 	private static final long serialVersionUID = 5597406795403538868L;
-
+	
 	public static void main(String[] args) {
 		SpaceGame game = new SpaceGame();
 		game.setupFrame("Space Game", false);
@@ -21,11 +21,11 @@ public class SpaceGame extends Game {
 	@Override
 	protected void initGame() {
 		try {
-			getArt().add("background.jpg");
+			//getArt().add("background.jpg");
 			getArt().add("robot.png");
 			getArt().add("layer1.png");
-			getArt().add("layer2.png");
-			getArt().add("layer3.png");
+			//getArt().add("layer2.png");
+			//getArt().add("layer3.png");
 			getArt().add("layer4.png");
 		}
 		catch(Exception exc) {

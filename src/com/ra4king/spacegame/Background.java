@@ -44,8 +44,6 @@ public class Background extends GameComponent {
 		AffineTransform old = g.getTransform();
 		g.setTransform(new AffineTransform());
 		
-		g.drawImage(getParent().getGame().getArt().get("background"), 0, 0, null);
-		
 		for(Layer l : layers)
 			l.draw(g);
 		
@@ -109,9 +107,17 @@ public class Background extends GameComponent {
 		
 		public void draw(Graphics2D g) {
 			g.drawImage(getParent().getGame().getArt().get(name),(int)Math.round(x - player.getCenterX() * speed), (int)Math.round(y - player.getCenterY() * speed),null);
-			g.drawImage(getParent().getGame().getArt().get(name),(int)Math.round(x + 2400 - player.getCenterX() * speed), (int)Math.round(y - player.getCenterY() * speed),null);
-			g.drawImage(getParent().getGame().getArt().get(name),(int)Math.round(x - player.getCenterX() * speed), (int)Math.round(y + 1500 - player.getCenterY() * speed),null);
-			g.drawImage(getParent().getGame().getArt().get(name),(int)Math.round(x + 2400 - player.getCenterX() * speed), (int)Math.round(y + 1500 - player.getCenterY() * speed),null);
+			
+			boolean isX = x + 2400 - player.getCenterX() * speed < getParent().getWidth();
+			if(isX)
+				g.drawImage(getParent().getGame().getArt().get(name),(int)Math.round(x + 2400 - player.getCenterX() * speed), (int)Math.round(y - player.getCenterY() * speed),null);
+			
+			boolean isY = y + 1500 - player.getCenterY() * speed < getParent().getHeight(); 
+			if(isY)
+				g.drawImage(getParent().getGame().getArt().get(name),(int)Math.round(x - player.getCenterX() * speed), (int)Math.round(y + 1500 - player.getCenterY() * speed),null);
+			
+			if(isX && isY)
+				g.drawImage(getParent().getGame().getArt().get(name),(int)Math.round(x + 2400 - player.getCenterX() * speed), (int)Math.round(y + 1500 - player.getCenterY() * speed),null);
 		}
 	}
 }
