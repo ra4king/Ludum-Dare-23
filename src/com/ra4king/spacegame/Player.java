@@ -8,8 +8,8 @@ import java.awt.event.MouseEvent;
 import com.ra4king.gameutils.Entity;
 import com.ra4king.gameutils.Input;
 import com.ra4king.gameutils.gameworld.GameComponent;
-import com.ra4king.spacegame.resources.Resource;
 import com.ra4king.spacegame.resources.ResourceBank;
+import com.ra4king.spacegame.screens.ActionScreen;
 
 public class Player extends GameComponent {
 	private ResourceBank resources;
@@ -71,8 +71,11 @@ public class Player extends GameComponent {
 	}
 	
 	private void pillagePlanet(Planet planet) {
-		resources.transfer(planet.getResources(), Resource.WOOD, 50);
-		System.out.println("p1: " + resources.getQuantity(Resource.WOOD));
+		if(getParent().getGame().getInput().isKeyDown(KeyEvent.VK_E))
+			getParent().getGame().setScreen("Action",new ActionScreen(getParent()));
+		
+//		resources.transfer(planet.getResources(), Resource.WOOD, 50);
+//		System.out.println("p1: " + resources.getQuantity(Resource.WOOD));
 	}
 	
 	@Override
