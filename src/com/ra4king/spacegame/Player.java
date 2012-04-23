@@ -72,7 +72,7 @@ public class Player extends GameComponent {
 	
 	private void pillagePlanet(Planet planet) {
 		if(getParent().getGame().getInput().isKeyDown(KeyEvent.VK_E))
-			getParent().getGame().setScreen("Action",new ActionScreen(getParent()));
+			getParent().getGame().setScreen("Action",new ActionScreen(getParent(),planet));
 		
 //		resources.transfer(planet.getResources(), Resource.WOOD, 50);
 //		System.out.println("p1: " + resources.getQuantity(Resource.WOOD));
