@@ -31,7 +31,7 @@ public class Space extends GameWorld {
 				planet = new Planet(Math.random() * 5000 - (5000 - getWidth())/ 2,
 									Math.random() * 5000 - (5000 - getHeight()) / 2,
 									Math.random() * 200 + 50,
-									new Color((float) Math.random(), (float) Math.random(),(float) Math.random()));
+									new Color((int)(256 * Math.random()), (int)(256 * Math.random()),(int)(256 * Math.random()),(int)(128 * Math.random())));
 				
 				for (Entity comp : getEntities()) {
 					if ((comp instanceof Planet || comp instanceof Player) && comp.intersects(planet.getX() - planet.getWidth()/2,planet.getY() - planet.getHeight()/2,planet.getWidth() * 2, planet.getHeight() * 2)) {

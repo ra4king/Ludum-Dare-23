@@ -31,6 +31,8 @@ public class SpaceGame extends Game {
 			//getArt().add("layer3.png");
 			getArt().add("layer4.png");
 			getArt().add("explosion.png");
+			for(int a = 1; a < 7; a++)
+				getArt().add("planet".concat(String.valueOf(a)).concat(".png"));
 		}
 		catch(Exception exc) {
 			exc.printStackTrace();

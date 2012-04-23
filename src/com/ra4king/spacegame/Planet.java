@@ -2,8 +2,12 @@ package com.ra4king.spacegame;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 
+import com.ra4king.gameutils.Art;
 import com.ra4king.gameutils.gameworld.GameComponent;
+import com.ra4king.gameutils.gameworld.GameWorld;
 import com.ra4king.spacegame.resources.ResourceBank;
 
 public class Planet extends GameComponent {
@@ -15,6 +19,8 @@ public class Planet extends GameComponent {
 	private GUI gui;
 	private boolean isGuiShown;
 	
+	private String image;
+	
 	public Planet(double x, double y, double size, Color tint) {
 		super(x,y,size,size);
 		this.tint = tint;
@@ -22,6 +28,28 @@ public class Planet extends GameComponent {
 		resources = new ResourceBank();
 		
 		gui = new GUI(this);
+	}
+	
+	@Override
+	public void init(GameWorld world) {
+		super.init(world);
+		
+		Art art = world.getGame().getArt();
+		
+		String name = "planet" + (int)(6 * Math.random() + 1);
+		
+		Image i = art.get(name);
+		
+		BufferedImage newImage = new BufferedImage(getIntWidth(),getIntHeight(),BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g = newImage.createGraphics();
+		g.drawImage(i,0,0,getIntWidth(),getIntHeight(),null);
+		g.setColor(tint);
+		g.fillOval(0, 0, getIntWidth(), getIntHeight());
+		g.dispose();
+		
+		image = "planet" + art.size();
+		
+		art.add(image, newImage);
 	}
 	
 	public int getStrength() {
@@ -61,7 +89,9 @@ public class Planet extends GameComponent {
 	
 	@Override
 	public void draw(Graphics2D g) {
-		g.setColor(tint);
-		g.fillOval(getIntX(), getIntY(), getIntWidth(), getIntHeight());
+//		g.setColor(tint);
+//		g.fillOval(getIntX(), getIntY(), getIntWidth(), getIntHeight());
+		
+		g.drawImage(getParent().getGame().getArt().get(image),getIntX(),getIntY(),null);
 	}
 }
