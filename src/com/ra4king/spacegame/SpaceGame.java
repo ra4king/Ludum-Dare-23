@@ -21,6 +21,7 @@ public class SpaceGame extends Game {
 	@Override
 	protected void initGame() {
 		try {
+			getArt().splitAndAdd("spaceships.png", 90, 50);
 			//getArt().add("background.jpg");
 			getArt().add("robot.png");
 			getArt().add("layer1.png");

@@ -7,17 +7,18 @@ import java.awt.event.KeyEvent;
 import com.ra4king.gameutils.Entity;
 import com.ra4king.gameutils.Input;
 import com.ra4king.gameutils.gameworld.GameComponent;
+import com.ra4king.gameutils.util.FastMath;
 import com.ra4king.spacegame.resources.ResourceBank;
 import com.ra4king.spacegame.screens.ActionScreen;
 
 public class Player extends GameComponent {
 	private ResourceBank resources;
-	private final double acceleration = 1000, maxSpeed = 400, resistance = 100;
-	private double vx, vy;
-	//private long lastTime;
+	private final double ACCELERATION = 700, MAX_SPEED = 700, RESISTANCE = 100;
+	private double direction, speed;
+	private int currentFrame;
 	
 	public Player() {
-		super(50,50,48,48);
+		super(50,50,90,50);
 		
 		resources = new ResourceBank();
 	}
@@ -30,32 +31,38 @@ public class Player extends GameComponent {
 	public void update(long deltaTime) {
 		Input i = getParent().getGame().getInput();
 		
-		double accel = acceleration * deltaTime / 1e9;
-		double resist = resistance * deltaTime / 1e9; 
+		double delta = deltaTime / 1e9;
+		
+		double turnSpeed = Math.PI * delta;
+		double accel = ACCELERATION * delta;
+		double resist = RESISTANCE * delta; 
 		
 		if(i.isKeyDown(KeyEvent.VK_A))
-			vx = Math.max(vx - accel, -maxSpeed);
+			direction -= turnSpeed;
 		if(i.isKeyDown(KeyEvent.VK_D))
-			vx = Math.min(vx + accel, maxSpeed);
-		
-		if(vx > 0)
-			vx = Math.max(vx - resist, 0);
-		if(vx < 0)
-			vx = Math.min(vx + resist, 0);
-		
-		setX(getX() + vx * deltaTime / 1e9);
+			direction += turnSpeed;
 		
 		if(i.isKeyDown(KeyEvent.VK_W))
-			vy = Math.max(vy - accel, -maxSpeed);
+			speed = Math.min(speed + accel, MAX_SPEED);
 		if(i.isKeyDown(KeyEvent.VK_S))
-			vy = Math.min(vy + accel, maxSpeed);
+			speed = Math.max(speed - accel, -MAX_SPEED);
 		
-		if(vy > 0)
-			vy = Math.max(vy - resist, 0);
-		if(vy < 0)
-			vy = Math.min(vy + resist, 0);
+		if(speed > 0)
+			speed = Math.max(speed - resist, 0);
+		if(speed < 0)
+			speed = Math.min(speed + resist, 0);
 		
-		setY(getY() + vy * deltaTime / 1e9);
+		if(Math.abs(speed) < 200)
+			currentFrame = 0;
+		else if(Math.abs(speed) < 2 * MAX_SPEED / 3)
+			currentFrame = 1;
+		else if(Math.abs(speed) < MAX_SPEED-5)
+			currentFrame = 3;
+		else
+			currentFrame = 2;
+		
+		setX(getX() + speed * FastMath.cos(direction) * delta);
+		setY(getY() + speed * FastMath.sin(direction) * delta);
 		
 		for(Entity e : getParent().getEntities())
 			if(e instanceof Planet && e.contains(getCenterX(), getCenterY())) {
@@ -76,8 +83,8 @@ public class Player extends GameComponent {
 	
 	@Override
 	public void draw(Graphics2D g) {
+		g.rotate(direction, getCenterX(), getCenterY());
 		g.setColor(Color.red);
-		g.fillOval(getIntX(), getIntY(), getIntWidth(), getIntHeight());
-		//g.drawImage(getParent().getGame().getArt().get("robot"),getIntX(),getIntY(),getIntWidth(),getIntHeight(),null);
+		g.drawImage(getParent().getGame().getArt().get("spaceships" + currentFrame),getIntX(),getIntY(),getIntWidth(),getIntHeight(),null);
 	}
 }
