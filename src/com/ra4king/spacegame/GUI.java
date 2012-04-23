@@ -1,5 +1,7 @@
 package com.ra4king.spacegame;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
@@ -45,7 +47,9 @@ public class GUI extends Widget {
 			g.drawImage(getParent().getGame().getArt().get("HUD2"), getParent().getWidth() - 318, getParent().getHeight() - 154, null);
 		
 		ResourceBank r = planet.getResources();
-		g.drawString("Wood: " + r.getQuantity(Resource.WOOD),getParent().getWidth() - 330, getParent().getHeight() - 160);
+		g.setColor(Color.white);
+		g.setFont(new Font(Font.SANS_SERIF,Font.BOLD,20));
+		g.drawString("Wood: " + r.getQuantity(Resource.WOOD),getParent().getWidth() - 330, getParent().getHeight() - 170);
 	}
 	
 	@Override

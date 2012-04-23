@@ -4,12 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
-import com.ra4king.gameutils.Entity;
 import com.ra4king.gameutils.Input;
 import com.ra4king.gameutils.gameworld.GameComponent;
 import com.ra4king.gameutils.util.FastMath;
 import com.ra4king.spacegame.resources.ResourceBank;
-import com.ra4king.spacegame.screens.ActionScreen;
 
 public class Player extends GameComponent {
 	private ResourceBank resources;
