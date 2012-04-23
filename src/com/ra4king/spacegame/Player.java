@@ -30,8 +30,6 @@ public class Player extends GameComponent {
 		double accel = acceleration * deltaTime / 1e9;
 		double resist = resistance * deltaTime / 1e9; 
 		
-		double oldX = getX(), oldY = getY();
-		
 		if(i.isKeyDown(KeyEvent.VK_A))
 			vx = Math.max(vx - accel, -maxSpeed);
 		if(i.isKeyDown(KeyEvent.VK_D))
@@ -43,19 +41,6 @@ public class Player extends GameComponent {
 			vx = Math.min(vx + resist, 0);
 		
 		setX(getX() + vx * deltaTime / 1e9);
-		
-		Planet planet = null;
-		
-		for(Entity e : getParent().getEntities())
-			if(e instanceof Planet && distanceSquared(e,this) < ((e.getWidth() + getWidth())/2) * ((e.getWidth() + getWidth())/2)) {
-				planet = (Planet)e;
-				setX(oldX);
-				vx = 0;
-				break;
-			}
-		
-		if(planet != null)
-			pillagePlanet(planet);
 		
 		if(i.isKeyDown(KeyEvent.VK_W))
 			vy = Math.max(vy - accel, -maxSpeed);
@@ -69,18 +54,11 @@ public class Player extends GameComponent {
 		
 		setY(getY() + vy * deltaTime / 1e9);
 		
-		Planet planet2 = null;
-		
 		for(Entity e : getParent().getEntities())
-			if(e instanceof Planet && distanceSquared(e,this) < ((e.getWidth() + getWidth())/2) * ((e.getWidth() + getWidth())/2)) {
-				planet2 = (Planet)e;
-				setY(oldY);
-				vy = 0;
+			if(e instanceof Planet && e.contains(getCenterX(), getCenterY())) {
+				pillagePlanet((Planet)e);
 				break;
 			}
-		
-		if(planet != planet2 && planet2 != null)
-			pillagePlanet(planet2);
 		
 		getParent().setXOffset(-getCenterX() + getParent().getWidth()/2);
 		getParent().setYOffset(-getCenterY() + getParent().getHeight()/2);
@@ -88,7 +66,6 @@ public class Player extends GameComponent {
 		MouseEvent me;
 		if((me = i.isMouseDown()) != null && System.nanoTime() - lastTime >= 1e9/10) {
 			lastTime = System.nanoTime();
-			System.out.println("hello!");
 			getParent().add(3,new Bullet(getCenterX() - 5, getCenterY() - 5, Math.atan2(me.getY() - (getScreenY() + getHeight()/2), me.getX() - (getScreenX() + getWidth()/2))));
 		}
 	}
@@ -96,11 +73,6 @@ public class Player extends GameComponent {
 	private void pillagePlanet(Planet planet) {
 		resources.transfer(planet.getResources(), Resource.WOOD, 50);
 		System.out.println("p1: " + resources.getQuantity(Resource.WOOD));
-	}
-	
-	private double distanceSquared(Entity e1, Entity e2) {
-		return (e1.getCenterX() - e2.getCenterX()) * (e1.getCenterX() - e2.getCenterX()) +
-			   (e1.getCenterY() - e2.getCenterY()) * (e1.getCenterY() - e2.getCenterY());
 	}
 	
 	@Override

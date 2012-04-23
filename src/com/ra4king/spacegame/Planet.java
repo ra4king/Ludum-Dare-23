@@ -29,6 +29,6 @@ public class Planet extends GameComponent {
 	@Override
 	public void draw(Graphics2D g) {
 		g.setColor(tint);
-		g.fillOval(getIntX(),getIntY(),getIntWidth(),getIntHeight());
+		g.fillOval(getIntX(), getIntY(), getIntWidth(), getIntHeight());
 	}
 }

@@ -24,7 +24,7 @@ public class Background extends GameComponent {
 		
 		for(int a = 1; a < 5; a++)
 			if(a == 1 || a == 4)
-				layers.add(new Layer("layer" + a,0,0,0.1 + a/10.0));
+				layers.add(new Layer("layer" + a,0,0,a/20.0));
 		
 		for(int a = 0; a < 300; a++)
 			stars.add(new Star(Math.random() * (space.getWidth()+200) - 100, Math.random() * (space.getHeight()+200) - 100, 1 + Math.random() * 2, 0.2 + Math.random() * 0.3));
