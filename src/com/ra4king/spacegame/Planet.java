@@ -10,6 +10,8 @@ public class Planet extends GameComponent {
 	private Color tint;
 	private ResourceBank resources;
 	
+	private int strength, population;
+	
 	private GUI gui;
 	private boolean isGuiShown;
 	
@@ -20,6 +22,22 @@ public class Planet extends GameComponent {
 		resources = new ResourceBank();
 		
 		gui = new GUI(this);
+	}
+	
+	public int getStrength() {
+		return strength;
+	}
+	
+	public void setStrength(int strength) {
+		this.strength = strength;
+	}
+	
+	public int getPopulation() {
+		return population;
+	}
+	
+	public void setPopulation(int population) {
+		this.population = population;
 	}
 	
 	public ResourceBank getResources() {
