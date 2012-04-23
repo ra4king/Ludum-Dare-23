@@ -40,12 +40,10 @@ public class GUI extends Widget {
 			@Override
 			public void doAction(Button button) {
 				if(button == steal) {
-					System.out.println("Clicked on steal!");
 					((Space)getParent()).getPlayer().getResources().transfer(planet.getResources(), Resource.WOOD, 50);
 					System.out.println(((Space)getParent()).getPlayer().getResources().getQuantity(Resource.WOOD));
 				}
 				else if(button == attack) {
-					System.out.println("Clicked on attack!");
 					getParent().remove(planet);
 					getParent().add(1,new Explosion(planet.getX(),planet.getY(),planet.getWidth()));
 					

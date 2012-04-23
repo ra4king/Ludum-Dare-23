@@ -3,6 +3,7 @@ package com.ra4king.spacegame;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.awt.geom.AffineTransform;
 
 import com.ra4king.gameutils.Input;
 import com.ra4king.gameutils.gameworld.GameComponent;
@@ -85,5 +86,8 @@ public class Player extends GameComponent {
 		g.rotate(direction, getCenterX(), getCenterY());
 		g.setColor(Color.red);
 		g.drawImage(getParent().getGame().getArt().get("spaceships" + currentFrame),getIntX(),getIntY(),getIntWidth(),getIntHeight(),null);
+		
+		g.setTransform(new AffineTransform());
+		g.drawImage(getParent().getGame().getArt().get("HUD1"), 20, 20, null);
 	}
 }

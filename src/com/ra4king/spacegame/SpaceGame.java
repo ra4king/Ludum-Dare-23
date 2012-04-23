@@ -15,7 +15,7 @@ public class SpaceGame extends Game {
 	}
 	
 	public SpaceGame() {
-		super(1024,768,MAX_FPS);
+		super(800,600,MAX_FPS);
 	}
 	
 	@Override
