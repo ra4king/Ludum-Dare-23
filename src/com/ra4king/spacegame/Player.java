@@ -55,9 +55,9 @@ public class Player extends GameComponent {
 		else if(Math.abs(speed) < 2 * MAX_SPEED / 3)
 			currentFrame = 1;
 		else if(Math.abs(speed) < MAX_SPEED-5)
-			currentFrame = 3;
-		else
 			currentFrame = 2;
+		else
+			currentFrame = 3;
 		
 		setX(getX() + speed * FastMath.cos(direction) * delta);
 		setY(getY() + speed * FastMath.sin(direction) * delta);

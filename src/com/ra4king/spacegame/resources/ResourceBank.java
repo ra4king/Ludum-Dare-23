@@ -30,5 +30,6 @@ public class ResourceBank {
 	
 	public void transfer(ResourceBank other, Resource r, int quantity) {
 		addQuantity(r,Math.min(other.getQuantity(r), quantity));
+		other.subtractQuantity(r, quantity);
 	}
 }

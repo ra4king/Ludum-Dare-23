@@ -13,11 +13,10 @@ import com.ra4king.gameutils.gui.Button;
 import com.ra4king.gameutils.gui.Widget;
 import com.ra4king.spacegame.resources.Resource;
 import com.ra4king.spacegame.resources.ResourceBank;
-import com.ra4king.spacegame.screens.ActionScreen;
 
 public class GUI extends Widget {
 	private Planet planet;
-	private boolean expanded, updateButtons;
+	private boolean expanded;
 	
 	private Button steal, attack;
 	
@@ -35,6 +34,8 @@ public class GUI extends Widget {
 	
 	@Override
 	public void show() {
+		super.show();
+		
 		Button.Action action = new Button.Action() {
 			@Override
 			public void doAction(Button button) {
@@ -66,11 +67,13 @@ public class GUI extends Widget {
 			}
 		};
 		
-		updateButtons = false;
+		updateButtons();
 	}
 	
 	@Override
 	public void hide() {
+		super.hide();
+		
 		getParent().remove(steal);
 		getParent().remove(attack);
 	}
@@ -84,8 +87,6 @@ public class GUI extends Widget {
 			getParent().remove(steal);
 			getParent().remove(attack);
 		}
-		
-		updateButtons = false;
 	}
 	
 	@Override
@@ -94,10 +95,7 @@ public class GUI extends Widget {
 	}
 	
 	@Override
-	public void update(long deltaTime) {
-		if(updateButtons)
-			updateButtons();
-	}
+	public void update(long deltaTime) {}
 	
 	@Override
 	public void draw(Graphics2D g) {
@@ -153,7 +151,7 @@ public class GUI extends Widget {
 		if(contains(me.getPoint().x,me.getPoint().y)) {
 			expanded = !expanded;
 			setY(expanded ? getParent().getHeight() - 26 : getParent().getHeight() - 154);
-			updateButtons = true;
+			updateButtons();
 		}
 	}
 }
