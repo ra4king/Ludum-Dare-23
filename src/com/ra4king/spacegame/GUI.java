@@ -9,13 +9,17 @@ import java.awt.geom.AffineTransform;
 
 import com.ra4king.gameutils.Screen;
 import com.ra4king.gameutils.gameworld.GameWorld;
+import com.ra4king.gameutils.gui.Button;
 import com.ra4king.gameutils.gui.Widget;
 import com.ra4king.spacegame.resources.Resource;
 import com.ra4king.spacegame.resources.ResourceBank;
+import com.ra4king.spacegame.screens.ActionScreen;
 
 public class GUI extends Widget {
 	private Planet planet;
-	private boolean expanded;
+	private boolean expanded, updateButtons;
+	
+	private Button steal, attack;
 	
 	public GUI(Planet planet) {
 		this.planet = planet;
@@ -30,12 +34,70 @@ public class GUI extends Widget {
 	}
 	
 	@Override
+	public void show() {
+		Button.Action action = new Button.Action() {
+			@Override
+			public void doAction(Button button) {
+				if(button == steal) {
+					System.out.println("Clicked on steal!");
+					((Space)getParent()).getPlayer().getResources().transfer(planet.getResources(), Resource.WOOD, 50);
+					System.out.println(((Space)getParent()).getPlayer().getResources().getQuantity(Resource.WOOD));
+				}
+				else if(button == attack) {
+					System.out.println("Clicked on attack!");
+					getParent().remove(planet);
+					getParent().add(1,new Explosion(planet.getX(),planet.getY(),planet.getWidth()));
+					
+					getParent().remove(GUI.this);
+				}
+			}
+		};
+		
+		steal = new Button("Steal Resources",12,getParent().getWidth() - 140, getParent().getHeight() - 100,25,25,true,action) {
+			public void draw(Graphics2D g) {
+				g.setTransform(new AffineTransform());
+				super.draw(g);
+			}
+		};
+		attack = new Button("Attack",12,getParent().getWidth() - 140, getParent().getHeight() - 60,25,25,true,action) {
+			public void draw(Graphics2D g) {
+				g.setTransform(new AffineTransform());
+				super.draw(g);
+			}
+		};
+		
+		updateButtons = false;
+	}
+	
+	@Override
+	public void hide() {
+		getParent().remove(steal);
+		getParent().remove(attack);
+	}
+	
+	private void updateButtons() {
+		if(expanded) {
+			getParent().add(4,steal);
+			getParent().add(4,attack);
+		}
+		else {
+			getParent().remove(steal);
+			getParent().remove(attack);
+		}
+		
+		updateButtons = false;
+	}
+	
+	@Override
 	public GameWorld getParent() {
 		return (GameWorld)super.getParent();
 	}
 	
 	@Override
-	public void update(long deltaTime) {}
+	public void update(long deltaTime) {
+		if(updateButtons)
+			updateButtons();
+	}
 	
 	@Override
 	public void draw(Graphics2D g) {
@@ -91,6 +153,7 @@ public class GUI extends Widget {
 		if(contains(me.getPoint().x,me.getPoint().y)) {
 			expanded = !expanded;
 			setY(expanded ? getParent().getHeight() - 26 : getParent().getHeight() - 154);
+			updateButtons = true;
 		}
 	}
 }
