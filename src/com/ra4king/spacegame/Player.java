@@ -3,7 +3,6 @@ package com.ra4king.spacegame;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 
 import com.ra4king.gameutils.Entity;
 import com.ra4king.gameutils.Input;
@@ -15,12 +14,16 @@ public class Player extends GameComponent {
 	private ResourceBank resources;
 	private final double acceleration = 1000, maxSpeed = 400, resistance = 100;
 	private double vx, vy;
-	private long lastTime;
+	//private long lastTime;
 	
 	public Player() {
 		super(50,50,48,48);
 		
 		resources = new ResourceBank();
+	}
+	
+	public ResourceBank getResources() {
+		return resources;
 	}
 	
 	@Override
@@ -56,32 +59,25 @@ public class Player extends GameComponent {
 		
 		for(Entity e : getParent().getEntities())
 			if(e instanceof Planet && e.contains(getCenterX(), getCenterY())) {
-				pillagePlanet((Planet)e);
+				if(getParent().getGame().getInput().isKeyDown(KeyEvent.VK_E))
+					getParent().getGame().setScreen("Action",new ActionScreen((Space)getParent(),(Planet)e));
 				break;
 			}
 		
 		getParent().setXOffset(-getCenterX() + getParent().getWidth()/2);
 		getParent().setYOffset(-getCenterY() + getParent().getHeight()/2);
 		
-		MouseEvent me;
-		if((me = i.isMouseDown()) != null && System.nanoTime() - lastTime >= 1e9/10) {
-			lastTime = System.nanoTime();
-			getParent().add(3,new Bullet(getCenterX() - 5, getCenterY() - 5, Math.atan2(me.getY() - (getScreenY() + getHeight()/2), me.getX() - (getScreenX() + getWidth()/2))));
-		}
-	}
-	
-	private void pillagePlanet(Planet planet) {
-		if(getParent().getGame().getInput().isKeyDown(KeyEvent.VK_E))
-			getParent().getGame().setScreen("Action",new ActionScreen(getParent(),planet));
-		
-//		resources.transfer(planet.getResources(), Resource.WOOD, 50);
-//		System.out.println("p1: " + resources.getQuantity(Resource.WOOD));
+//		MouseEvent me;
+//		if((me = i.isMouseDown()) != null && System.nanoTime() - lastTime >= 1e9/10) {
+//			lastTime = System.nanoTime();
+//			getParent().add(3,new Bullet(getCenterX() - 5, getCenterY() - 5, Math.atan2(me.getY() - (getScreenY() + getHeight()/2), me.getX() - (getScreenX() + getWidth()/2))));
+//		}
 	}
 	
 	@Override
 	public void draw(Graphics2D g) {
 		g.setColor(Color.red);
 		g.fillOval(getIntX(), getIntY(), getIntWidth(), getIntHeight());
-		g.drawImage(getParent().getGame().getArt().get("robot"),getIntX(),getIntY(),getIntWidth(),getIntHeight(),null);
+		//g.drawImage(getParent().getGame().getArt().get("robot"),getIntX(),getIntY(),getIntWidth(),getIntHeight(),null);
 	}
 }

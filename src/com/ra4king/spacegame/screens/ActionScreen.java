@@ -5,19 +5,19 @@ import java.awt.Graphics2D;
 
 import com.ra4king.gameutils.Game;
 import com.ra4king.gameutils.MenuPage;
-import com.ra4king.gameutils.Screen;
-import com.ra4king.gameutils.gameworld.GameWorld;
 import com.ra4king.gameutils.gui.Button;
 import com.ra4king.spacegame.Explosion;
 import com.ra4king.spacegame.Planet;
+import com.ra4king.spacegame.Space;
+import com.ra4king.spacegame.resources.Resource;
 
 public class ActionScreen extends MenuPage {
-	private Screen background;
+	private Space background;
 	private Planet planet;
 	
 	private Button steal, attack;
 	
-	public ActionScreen(Screen background, Planet planet) {
+	public ActionScreen(Space background, Planet planet) {
 		this.background = background;
 		this.planet = planet;
 		
@@ -33,11 +33,13 @@ public class ActionScreen extends MenuPage {
 			public void doAction(Button button) {
 				if(button == steal) {
 					System.out.println("Clicked on steal!");
+					background.getPlayer().getResources().transfer(planet.getResources(), Resource.WOOD, 50);
+					System.out.println(background.getPlayer().getResources().getQuantity(Resource.WOOD));
 				}
 				else if(button == attack) {
 					System.out.println("Clicked on attack!");
-					((GameWorld)background).remove(planet);
-					((GameWorld)background).add(1,new Explosion(planet.getX(),planet.getY(),planet.getWidth()));
+					background.remove(planet);
+					background.add(1,new Explosion(planet.getX(),planet.getY(),planet.getWidth()));
 				}
 				
 				ActionScreen.this.getGame().setScreen(background);
