@@ -10,11 +10,16 @@ public class Planet extends GameComponent {
 	private Color tint;
 	private ResourceBank resources;
 	
+	private GUI gui;
+	private boolean isGuiShown;
+	
 	public Planet(double x, double y, double size, Color tint) {
 		super(x,y,size,size);
 		this.tint = tint;
 		
 		resources = new ResourceBank();
+		
+		gui = new GUI(this);
 	}
 	
 	public ResourceBank getResources() {
@@ -23,7 +28,17 @@ public class Planet extends GameComponent {
 	
 	@Override
 	public void update(long deltaTime) {
-		
+		Player p = ((Space)getParent()).getPlayer();
+		if(contains(p.getCenterX(), p.getCenterY())) {
+			if(!isGuiShown) {
+				getParent().add(3,gui);
+				isGuiShown = true;
+			}
+		}
+		else {
+			getParent().remove(gui);
+			isGuiShown = false;
+		}
 	}
 	
 	@Override

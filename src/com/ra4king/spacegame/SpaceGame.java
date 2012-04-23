@@ -22,7 +22,9 @@ public class SpaceGame extends Game {
 	protected void initGame() {
 		try {
 			getArt().splitAndAdd("spaceships.png", 90, 50);
-			//getArt().add("background.jpg");
+			getArt().add("HUD1.png");
+			getArt().add("HUD2.png");
+			getArt().add("HUD3.png");
 			getArt().add("robot.png");
 			getArt().add("layer1.png");
 			//getArt().add("layer2.png");

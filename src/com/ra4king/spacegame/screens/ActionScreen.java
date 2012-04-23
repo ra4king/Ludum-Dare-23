@@ -2,6 +2,7 @@ package com.ra4king.spacegame.screens;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 
 import com.ra4king.gameutils.Game;
 import com.ra4king.gameutils.MenuPage;
@@ -57,5 +58,11 @@ public class ActionScreen extends MenuPage {
 	public void draw(Graphics2D g) {
 		background.draw(g);
 		super.draw(g);
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent key) {
+		if(key.getKeyCode() == KeyEvent.VK_ESCAPE)
+			getGame().setScreen(background);
 	}
 }

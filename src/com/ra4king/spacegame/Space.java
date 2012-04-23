@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import com.ra4king.gameutils.Entity;
 import com.ra4king.gameutils.Game;
 import com.ra4king.gameutils.gameworld.GameWorld;
+import com.ra4king.spacegame.resources.Resource;
 import com.ra4king.spacegame.screens.PauseScreen;
 
 public class Space extends GameWorld {
@@ -39,6 +40,12 @@ public class Space extends GameWorld {
 					}
 				}
 			} while (planet == null);
+			
+			planet.getResources().addQuantity(Resource.WOOD, (int)(200 * Math.random()) + 1);
+			planet.getResources().addQuantity(Resource.STONE, (int)(50 * Math.random()) + 1);
+			planet.getResources().addQuantity(Resource.METAL, (int)(30 * Math.random()) + 1);
+			planet.getResources().addQuantity(Resource.OIL, (int)(100 * Math.random()) + 1);
+			planet.getResources().addQuantity(Resource.SLAVES, (int)(200 * Math.random()) + 1);
 			
 			add(1, planet);
 		}

@@ -64,12 +64,13 @@ public class Player extends GameComponent {
 		setX(getX() + speed * FastMath.cos(direction) * delta);
 		setY(getY() + speed * FastMath.sin(direction) * delta);
 		
-		for(Entity e : getParent().getEntities())
-			if(e instanceof Planet && e.contains(getCenterX(), getCenterY())) {
-				if(getParent().getGame().getInput().isKeyDown(KeyEvent.VK_E))
-					getParent().getGame().setScreen("Action",new ActionScreen((Space)getParent(),(Planet)e));
-				break;
-			}
+//		for(Entity e : getParent().getEntities())
+//			if(e instanceof Planet && e.contains(getCenterX(), getCenterY())) {
+//				if(getParent().getGame().getInput().isKeyDown(KeyEvent.VK_E))
+//					getParent().getGame().setScreen("Action",new ActionScreen((Space)getParent(),(Planet)e));
+//				
+//				break;
+//			}
 		
 		getParent().setXOffset(-getCenterX() + getParent().getWidth()/2);
 		getParent().setYOffset(-getCenterY() + getParent().getHeight()/2);
