@@ -1,10 +1,12 @@
 package com.ra4king.spacegame;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 
 import com.ra4king.gameutils.Entity;
 import com.ra4king.gameutils.Game;
 import com.ra4king.gameutils.gameworld.GameWorld;
+import com.ra4king.spacegame.screens.PauseScreen;
 
 public class Space extends GameWorld {
 	private Player player;
@@ -47,6 +49,11 @@ public class Space extends GameWorld {
 	@Override
 	public void update(long deltaTime) {
 		super.update(deltaTime);
-		
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent key) {
+		if(key.getKeyCode() == KeyEvent.VK_P || key.getKeyCode() == KeyEvent.VK_ESCAPE)
+			getGame().setScreen("Pause",new PauseScreen(this));
 	}
 }
