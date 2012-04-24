@@ -57,6 +57,8 @@ public class SpaceGame extends Game {
 				setSize(1024,768);
 			
 			checkResize = true;
+			
+			setFullScreen(true);
 		}
 	}
 	
