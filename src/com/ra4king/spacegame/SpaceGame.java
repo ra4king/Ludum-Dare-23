@@ -2,6 +2,7 @@ package com.ra4king.spacegame;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Toolkit;
 
 import com.ra4king.gameutils.Game;
 import com.ra4king.spacegame.screens.IntroScreen;
@@ -44,6 +45,19 @@ public class SpaceGame extends Game {
 		getSound().loop("ClairDeLune");
 		
 		setScreen("Intro", new IntroScreen());
+	}
+	
+	private boolean checkResize;
+	
+	public void update(long deltaTime) {
+		super.update(deltaTime);
+		
+		if(!checkResize) {
+			if(Toolkit.getDefaultToolkit().getScreenSize().height >= 800)
+				setSize(1024,768);
+			
+			checkResize = true;
+		}
 	}
 	
 	public void paint(Graphics2D g) {
