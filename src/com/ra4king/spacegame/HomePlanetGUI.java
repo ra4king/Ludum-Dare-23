@@ -13,18 +13,14 @@ import com.ra4king.gameutils.gui.Button;
 import com.ra4king.gameutils.gui.Widget;
 import com.ra4king.spacegame.resources.Resource;
 import com.ra4king.spacegame.resources.ResourceBank;
-import com.ra4king.spacegame.screens.GameOverScreen;
-import com.ra4king.spacegame.screens.WinScreen;
 
-public class PlanetGUI extends Widget {
+public class HomePlanetGUI extends Widget {
 	private Planet planet;
 	private boolean expanded;
 	
-	private Button steal, attack;
+	private Button store, equip, upgrade;
 	
-	private int stealCount = 0;
-	
-	public PlanetGUI(Planet planet) {
+	public HomePlanetGUI(Planet planet) {
 		this.planet = planet;
 	}
 	
@@ -43,74 +39,36 @@ public class PlanetGUI extends Widget {
 		Button.Action action = new Button.Action() {
 			@Override
 			public void doAction(Button button) {
-				if(button == steal) {
-					getParent().getGame().getSound().play("pickup");
-					
-					ResourceBank prr = ((Space)getParent()).getPlayer().getShip().getResources();
-					ResourceBank max = ((Space)getParent()).getPlayer().getShip().getMaximumValues();
-					ResourceBank ptr = planet.getResources();
-					
-					boolean stoleAnything = false;
-					
-					for(Resource r : Resource.values()) {
-						int toTransfer = Math.min(max.getQuantity(r) - prr.getQuantity(r), Math.max(1,(int)(ptr.getQuantity(r) * Math.random() * 0.3)));
-						
-						if(toTransfer > 0) {
-							prr.transfer(ptr, r, toTransfer);
-							stoleAnything = true;
-						}
-					}
-					
-					if(stoleAnything) {
-						if(stealCount > 0)
-							((Space)getParent()).getPlayer().getShip().applyDamage(10);
-						
-						stealCount++;
-					}
-					
-					if(((Space)getParent()).getPlayer().getShip().getHealth() == 0)
-						getParent().getGame().setScreen("Game Over", new GameOverScreen());
-				}
-				else if(button == attack) {
-					Player p = ((Space)getParent()).getPlayer();
-					
-					p.getShip().applyDamage(planet.getStrength());
-					
-					if(p.getShip().getHealth() > 0) {
-						ResourceBank prr = p.getShip().getResources();
-						ResourceBank max = p.getShip().getMaximumValues();
-						ResourceBank ptr = planet.getResources();
-						
-						for(Resource r : Resource.values())
-							prr.addQuantity(r,Math.min(max.getQuantity(r) - prr.getQuantity(r), ptr.getQuantity(r)));
-						
-						prr.addQuantity(Resource.SLAVES, Math.min(Math.max(0, max.getQuantity(Resource.SLAVES) - planet.getPopulation()), planet.getPopulation()));
-						
-						getParent().remove(planet);
-						getParent().add(1,new Explosion(planet.getX(),planet.getY(),planet.getWidth()));
-						
-						getParent().remove(PlanetGUI.this);
-						
-						p.getShip().destroyPlanet();
-						
-						getParent().getGame().getSound().play("blast");
-						
-						if(p.getShip().getPlanetsDestroyedNum() == 50)
-							getParent().getGame().setScreen("Win Screen", new WinScreen());
-					}
-					else
-						getParent().getGame().setScreen("Game Over", new GameOverScreen());
-				}
+				Player p = ((Space)getParent()).getPlayer();
+				ResourceBank shipRes = p.getShip().getResources();
+				ResourceBank shipMax = p.getShip().getMaximumValues();
+				
+				ResourceBank planetRes = planet.getResources();
+				
+				if(button == store)
+					for(Resource r : Resource.values())
+						planetRes.transfer(shipRes, r, shipRes.getQuantity(r));
+				else if(button == equip)
+					for(Resource r : Resource.values())
+						shipRes.transfer(planetRes, r, shipMax.getQuantity(r) - shipRes.getQuantity(r));
+				else if(button == upgrade)
+					planet.setBounds(planet.getX() - 10, planet.getY() - 10, planet.getWidth() + 20, planet.getHeight() + 20);
 			}
 		};
 		
-		steal = new Button("Steal Resources",12,getParent().getWidth() - 140, getParent().getHeight() - 100,25,25,true,action) {
+		store = new Button("Store Resources",12,getParent().getWidth() - 140, getParent().getHeight() - 130,25,25,true,action) {
 			public void draw(Graphics2D g) {
 				g.setTransform(new AffineTransform());
 				super.draw(g);
 			}
 		};
-		attack = new Button("Attack",12,getParent().getWidth() - 140, getParent().getHeight() - 60,25,25,true,action) {
+		equip = new Button("Equip Resources",12,getParent().getWidth() - 140, getParent().getHeight() - 90,25,25,true,action) {
+			public void draw(Graphics2D g) {
+				g.setTransform(new AffineTransform());
+				super.draw(g);
+			}
+		};
+		upgrade = new Button("Upgrade Planet",12,getParent().getWidth() - 140, getParent().getHeight() - 50,25,25,true,action) {
 			public void draw(Graphics2D g) {
 				g.setTransform(new AffineTransform());
 				super.draw(g);
@@ -124,18 +82,21 @@ public class PlanetGUI extends Widget {
 	public void hide() {
 		super.hide();
 		
-		getParent().remove(steal);
-		getParent().remove(attack);
+		getParent().remove(store);
+		getParent().remove(equip);
+		getParent().remove(upgrade);
 	}
 	
 	private void updateButtons() {
 		if(expanded) {
-			getParent().add(4,steal);
-			getParent().add(4,attack);
+			getParent().add(4,store);
+			getParent().add(4,equip);
+			getParent().add(4,upgrade);
 		}
 		else {
-			getParent().remove(steal);
-			getParent().remove(attack);
+			getParent().remove(store);
+			getParent().remove(equip);
+			getParent().remove(upgrade);
 		}
 	}
 	
@@ -157,20 +118,17 @@ public class PlanetGUI extends Widget {
 		g.setFont(new Font(Font.SANS_SERIF,Font.BOLD,15));
 		FontMetrics fm = g.getFontMetrics();
 		
-		int left = 300, sep = 90;
-		for(String s : new String[] { "Defense", "Population", "Wood", "Oil"}) {
+		int left = 290, sep = 100;
+		for(String s : new String[] { "Wood", "Stone", "Slaves"}) {
 			g.drawString(s,getParent().getWidth() - left - fm.stringWidth(s)/2, getParent().getHeight() - 180);
 			left -= sep;
-			sep -= 10;
 		}
 		
-		left = 300;
-		sep = 90;
-		for(int i : new Integer[] { planet.getStrength(), planet.getPopulation(), r.getQuantity(Resource.WOOD), r.getQuantity(Resource.OIL) }) {
+		left = 290;
+		for(int i : new Integer[] { r.getQuantity(Resource.WOOD), r.getQuantity(Resource.STONE), r.getQuantity(Resource.SLAVES) }) {
 			String s = String.valueOf(i);
 			g.drawString(s,getParent().getWidth() - left - fm.stringWidth(s)/2, getParent().getHeight() - 163);
 			left -= sep;
-			sep -= 10;
 		}
 		
 		if(!expanded)

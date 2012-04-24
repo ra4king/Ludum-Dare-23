@@ -12,8 +12,6 @@ import com.ra4king.gameutils.util.FastMath;
 import com.ra4king.spacegame.resources.ResourceBank;
 
 public class Player extends GameComponent {
-	private ResourceBank motherPlanetResources;
-	
 	private final double ACCELERATION = 700, MAX_SPEED = 700, RESISTANCE = 100;
 	private double direction, speed;
 	private int currentFrame;
@@ -23,8 +21,6 @@ public class Player extends GameComponent {
 	public Player() {
 		super(50,50,90,50);
 		
-		motherPlanetResources = new ResourceBank();
-		
 		ship = new Ship();
 	}
 	
@@ -33,10 +29,6 @@ public class Player extends GameComponent {
 		super.init(world);
 		
 		world.add(3,new PlayerGUI(this));
-	}
-	
-	public ResourceBank getMotherPlanetResources() {
-		return motherPlanetResources;
 	}
 	
 	public Ship getShip() {

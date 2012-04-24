@@ -8,7 +8,7 @@ public class Ship {
 	private ResourceBank maximum;
 	
 	private int shipLevel, metalNeededToUpgrade, oilNeededToUpgrade, slavesNeededToUpgrade;
-	private int health, maxHealth = 100, metalNeededToFix, oilNeededToFix, slavesNeededToFix;
+	private int health = 50, maxHealth = 50, metalNeededToFix, oilNeededToFix, slavesNeededToFix;
 	
 	private int planetsDestroyed;
 	
@@ -70,9 +70,6 @@ public class Ship {
 		resources.subtractQuantity(Resource.METAL, metalNeededToUpgrade);
 		resources.subtractQuantity(Resource.OIL, oilNeededToUpgrade);
 		
-		metalNeededToFix += 50;
-		slavesNeededToFix += 10;
-		
 		health = maxHealth;
 		
 		return true;
@@ -88,6 +85,8 @@ public class Ship {
 		
 		maxHealth += 50;
 		
+		health += 50;
+		
 		maximum.addQuantity(Resource.WOOD, 200);
 		maximum.addQuantity(Resource.STONE, 100);
 		maximum.addQuantity(Resource.METAL, 100);
@@ -98,7 +97,12 @@ public class Ship {
 		resources.subtractQuantity(Resource.OIL, oilNeededToUpgrade);
 		
 		metalNeededToUpgrade += 100;
+		oilNeededToUpgrade += 70;
 		slavesNeededToUpgrade += 50;
+		
+		metalNeededToFix += 50;
+		oilNeededToFix += 20;
+		slavesNeededToFix += 10;
 		
 		return true;
 	}
