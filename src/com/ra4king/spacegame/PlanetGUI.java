@@ -44,6 +44,8 @@ public class PlanetGUI extends Widget {
 			@Override
 			public void doAction(Button button) {
 				if(button == steal) {
+					getParent().getGame().getSound().play("pickup");
+					
 					ResourceBank prr = ((Space)getParent()).getPlayer().getShip().getResources();
 					ResourceBank max = ((Space)getParent()).getPlayer().getShip().getMaximumValues();
 					ResourceBank ptr = planet.getResources();
@@ -87,6 +89,8 @@ public class PlanetGUI extends Widget {
 						getParent().remove(PlanetGUI.this);
 						
 						p.getShip().destroyPlanet();
+						
+						getParent().getGame().getSound().play("blast");
 						
 						if(p.getShip().getPlanetsDestroyedNum() == 50)
 							getParent().getGame().setScreen("Win Screen", new WinScreen());

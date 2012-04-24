@@ -46,6 +46,8 @@ public class PlayerGUI extends Widget {
 				
 				if(button == fixShip)
 					player.getShip().fixShip();
+				
+				getParent().getGame().getSound().play("select");
 			}
 		};
 		

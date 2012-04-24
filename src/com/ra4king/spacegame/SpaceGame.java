@@ -28,12 +28,14 @@ public class SpaceGame extends Game {
 			getArt().add("HUD3.png");
 			getArt().add("robot.png");
 			getArt().add("layer1.png");
-			//getArt().add("layer2.png");
-			//getArt().add("layer3.png");
 			getArt().add("layer4.png");
 			getArt().add("explosion.png");
 			for(int a = 1; a < 7; a++)
 				getArt().add("planet".concat(String.valueOf(a)).concat(".png"));
+			
+			getSound().add("blast.wav");
+			getSound().add("pickup.wav");
+			getSound().add("select.wav");
 		}
 		catch(Exception exc) {
 			exc.printStackTrace();

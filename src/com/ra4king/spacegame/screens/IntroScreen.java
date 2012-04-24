@@ -10,10 +10,7 @@ import com.ra4king.spacegame.Space;
 
 public class IntroScreen extends BasicScreen {
 	@Override
-	public void update(long deltaTime) {
-		if(getGame().getInput().isKeyDown(KeyEvent.VK_ENTER))
-			getGame().setScreen("Space", new Space());
-	}
+	public void update(long deltaTime) {}
 	
 	@Override
 	public void draw(Graphics2D g) {
@@ -26,5 +23,13 @@ public class IntroScreen extends BasicScreen {
 		
 		g.setFont(new Font(Font.SANS_SERIF,Font.BOLD,40));
 		g.drawString("You start on your tiny planet....", getWidth()/2 - 250, getHeight()/2 + 80);
+		
+		g.setFont(new Font(Font.SANS_SERIF,Font.BOLD,20));
+		g.drawString("Hit any key to start ;)", getWidth()/2 - 100, getHeight()/2 + 150);
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent key) {
+		getGame().setScreen("Space", new Space());
 	}
 }
