@@ -13,6 +13,7 @@ import com.ra4king.gameutils.gameworld.GameComponent;
 import com.ra4king.gameutils.gameworld.GameWorld;
 import com.ra4king.gameutils.gui.Widget;
 import com.ra4king.gameutils.util.FastMath;
+import com.ra4king.spacegame.resources.Resource;
 import com.ra4king.spacegame.resources.ResourceBank;
 
 public class Planet extends GameComponent {
@@ -23,6 +24,7 @@ public class Planet extends GameComponent {
 	
 	private Widget gui;
 	private boolean isGuiShown, isHome;
+	private HomePlanetData homePlanetData;
 	
 	private String image, original;
 	
@@ -34,7 +36,12 @@ public class Planet extends GameComponent {
 		
 		this.isHome = isHome;
 		
+		homePlanetData = isHome ? new HomePlanetData(): null;
 		gui = isHome ? new HomePlanetGUI(this) : new PlanetGUI(this);
+	}
+	
+	public HomePlanetData getHomePlanetData() {
+		return homePlanetData;
 	}
 	
 	@Override
@@ -126,6 +133,58 @@ public class Planet extends GameComponent {
 		}
 		
 		g.drawImage(getParent().getGame().getArt().get(image),getIntX(),getIntY(),null);
+	}
+	
+	public class HomePlanetData {
+		private int planetLevel;
+		private int woodToUpgrade, stoneToUpgrade, slavesToUpgrade;
+		
+		public HomePlanetData() {
+			upgradePlanet();
+		}
+		
+		public boolean canUpgrade() {
+			ResourceBank r = getResources();
+			
+			return !(r.getQuantity(Resource.WOOD) < woodToUpgrade ||
+				   r.getQuantity(Resource.STONE) < stoneToUpgrade ||
+				   r.getQuantity(Resource.SLAVES) < slavesToUpgrade);
+		}
+		
+		public void upgradePlanet() {
+			if(!canUpgrade())
+				return;
+			
+			ResourceBank r = getResources();
+			
+			planetLevel++;
+			
+			r.subtractQuantity(Resource.WOOD, woodToUpgrade);
+			r.subtractQuantity(Resource.STONE, stoneToUpgrade);
+			
+			woodToUpgrade += 100;
+			stoneToUpgrade += 70;
+			slavesToUpgrade += 50;
+			
+			if(planetLevel > 1)
+				setBounds(getX() - 10, getY() - 10, getWidth() + 20, getHeight() + 20);
+		}
+		
+		public int getPlanetLevel() {
+			return planetLevel;
+		}
+		
+		public int getWoodToUpgrade() {
+			return woodToUpgrade;
+		}
+		
+		public int getStoneToUpgrade() {
+			return stoneToUpgrade;
+		}
+		
+		public int getSlavesToUpgrade() {
+			return slavesToUpgrade;
+		}
 	}
 	
 	private class Arrow extends GameComponent {

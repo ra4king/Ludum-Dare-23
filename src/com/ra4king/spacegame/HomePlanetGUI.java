@@ -40,19 +40,21 @@ public class HomePlanetGUI extends Widget {
 			@Override
 			public void doAction(Button button) {
 				Player p = ((Space)getParent()).getPlayer();
-				ResourceBank shipRes = p.getShip().getResources();
-				ResourceBank shipMax = p.getShip().getMaximumValues();
-				
+				ResourceBank playerRes = p.getShip().getResources();
 				ResourceBank planetRes = planet.getResources();
 				
 				if(button == store)
 					for(Resource r : Resource.values())
-						planetRes.transfer(shipRes, r, shipRes.getQuantity(r));
+						planetRes.transferFrom(playerRes, r, playerRes.getQuantity(r));
 				else if(button == equip)
 					for(Resource r : Resource.values())
-						shipRes.transfer(planetRes, r, shipMax.getQuantity(r) - shipRes.getQuantity(r));
-				else if(button == upgrade)
-					planet.setBounds(planet.getX() - 10, planet.getY() - 10, planet.getWidth() + 20, planet.getHeight() + 20);
+						playerRes.transferFrom(planetRes, r, playerRes.getQuantity(r));
+				else if(button == upgrade) {
+					planet.getHomePlanetData().upgradePlanet();
+					
+					if(!planet.getHomePlanetData().canUpgrade())
+						upgrade.setEnabled(false);
+				}
 			}
 		};
 		
@@ -74,6 +76,7 @@ public class HomePlanetGUI extends Widget {
 				super.draw(g);
 			}
 		};
+		upgrade.setEnabled(false);
 		
 		updateButtons();
 	}
@@ -106,7 +109,10 @@ public class HomePlanetGUI extends Widget {
 	}
 	
 	@Override
-	public void update(long deltaTime) {}
+	public void update(long deltaTime) {
+		if(!upgrade.isEnabled() && planet.getHomePlanetData().canUpgrade())
+			upgrade.setEnabled(true);
+	}
 	
 	@Override
 	public void draw(Graphics2D g) {
@@ -118,14 +124,14 @@ public class HomePlanetGUI extends Widget {
 		g.setFont(new Font(Font.SANS_SERIF,Font.BOLD,15));
 		FontMetrics fm = g.getFontMetrics();
 		
-		int left = 290, sep = 100;
-		for(String s : new String[] { "Wood", "Stone", "Slaves"}) {
+		int left = 300, sep = 70;
+		for(String s : new String[] { "Level", "Wood", "Stone", "Slaves"}) {
 			g.drawString(s,getParent().getWidth() - left - fm.stringWidth(s)/2, getParent().getHeight() - 180);
 			left -= sep;
 		}
 		
-		left = 290;
-		for(int i : new Integer[] { r.getQuantity(Resource.WOOD), r.getQuantity(Resource.STONE), r.getQuantity(Resource.SLAVES) }) {
+		left = 300;
+		for(int i : new Integer[] { planet.getHomePlanetData().getPlanetLevel(), r.getQuantity(Resource.WOOD), r.getQuantity(Resource.STONE), r.getQuantity(Resource.SLAVES) }) {
 			String s = String.valueOf(i);
 			g.drawString(s,getParent().getWidth() - left - fm.stringWidth(s)/2, getParent().getHeight() - 163);
 			left -= sep;

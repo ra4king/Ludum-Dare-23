@@ -46,17 +46,16 @@ public class PlanetGUI extends Widget {
 				if(button == steal) {
 					getParent().getGame().getSound().play("pickup");
 					
-					ResourceBank prr = ((Space)getParent()).getPlayer().getShip().getResources();
-					ResourceBank max = ((Space)getParent()).getPlayer().getShip().getMaximumValues();
-					ResourceBank ptr = planet.getResources();
+					ResourceBank playerRes = ((Space)getParent()).getPlayer().getShip().getResources();
+					ResourceBank planetRes = planet.getResources();
 					
 					boolean stoleAnything = false;
 					
 					for(Resource r : Resource.values()) {
-						int toTransfer = Math.min(max.getQuantity(r) - prr.getQuantity(r), Math.max(1,(int)(ptr.getQuantity(r) * Math.random() * 0.3)));
+						int toTransfer = Math.max(1,(int)(planetRes.getQuantity(r) * Math.random() * 0.3));
 						
 						if(toTransfer > 0) {
-							prr.transfer(ptr, r, toTransfer);
+							playerRes.transferFrom(planetRes, r, toTransfer);
 							stoleAnything = true;
 						}
 					}
@@ -77,14 +76,13 @@ public class PlanetGUI extends Widget {
 					p.getShip().applyDamage(planet.getStrength());
 					
 					if(p.getShip().getHealth() > 0) {
-						ResourceBank prr = p.getShip().getResources();
-						ResourceBank max = p.getShip().getMaximumValues();
-						ResourceBank ptr = planet.getResources();
+						ResourceBank playerRes = p.getShip().getResources();
+						ResourceBank planetRes = planet.getResources();
 						
 						for(Resource r : Resource.values())
-							prr.addQuantity(r,Math.min(max.getQuantity(r) - prr.getQuantity(r), ptr.getQuantity(r)));
+							playerRes.addQuantity(r,planetRes.getQuantity(r));
 						
-						prr.addQuantity(Resource.SLAVES, Math.min(Math.max(0, max.getQuantity(Resource.SLAVES) - planet.getPopulation()), planet.getPopulation()));
+						playerRes.addQuantity(Resource.SLAVES, planet.getPopulation());
 						
 						getParent().remove(planet);
 						getParent().add(1,new Explosion(planet.getX(),planet.getY(),planet.getWidth()));

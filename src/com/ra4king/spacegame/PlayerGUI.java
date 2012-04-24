@@ -41,11 +41,18 @@ public class PlayerGUI extends Widget {
 		Button.Action action = new Button.Action() {
 			@Override
 			public void doAction(Button button) {
-				if(button == upgrade)
+				if(button == upgrade) {
 					player.getShip().upgradeShip();
-				
-				if(button == fixShip)
+					
+					if(!player.getShip().canUpgrade())
+						upgrade.setEnabled(false);
+				}
+				else if(button == fixShip) {
 					player.getShip().fixShip();
+					
+					if(!player.getShip().canFix())
+						fixShip.setEnabled(false);
+				}
 				
 				getParent().getGame().getSound().play("select");
 			}
@@ -57,6 +64,7 @@ public class PlayerGUI extends Widget {
 				super.draw(g);
 			}
 		};
+		upgrade.setEnabled(false);
 		
 		fixShip = new Button("Fix Ship", 12, 235, 150, 25, 25, true, action) {
 			public void draw(Graphics2D g) {
@@ -64,6 +72,7 @@ public class PlayerGUI extends Widget {
 				super.draw(g);
 			}
 		};
+		fixShip.setEnabled(false);
 		
 		updateButtons();
 	}
@@ -93,7 +102,12 @@ public class PlayerGUI extends Widget {
 	}
 	
 	@Override
-	public void update(long deltaTime) {}
+	public void update(long deltaTime) {
+		if(!upgrade.isEnabled() && player.getShip().canUpgrade())
+			upgrade.setEnabled(true);
+		if(!fixShip.isEnabled() && player.getShip().canFix())
+			fixShip.setEnabled(true);
+	}
 	
 	@Override
 	public void draw(Graphics2D g) {
@@ -137,7 +151,7 @@ public class PlayerGUI extends Widget {
 			
 			top = 85;
 			for(Resource s : Resource.values()) {
-				g.drawString(String.valueOf(player.getShip().getResources().getQuantity(s)).concat(" / ").concat(String.valueOf(player.getShip().getMaximumValues().getQuantity(s))), 120, top);
+				g.drawString(String.valueOf(player.getShip().getResources().getQuantity(s)).concat(" / ").concat(String.valueOf(player.getShip().getResources().getMaximumQuantity(s))), 120, top);
 				top += sep;
 			}
 		}
