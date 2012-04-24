@@ -67,6 +67,9 @@ public class PlanetGUI extends Widget {
 						
 						stealCount++;
 					}
+					
+					if(((Space)getParent()).getPlayer().getShip().getHealth() == 0)
+						getParent().getGame().setScreen("Game Over", new GameOverScreen());
 				}
 				else if(button == attack) {
 					Player p = ((Space)getParent()).getPlayer();
