@@ -48,13 +48,15 @@ public class HomePlanetGUI extends Widget {
 						planetRes.transferFrom(playerRes, r, playerRes.getQuantity(r));
 				else if(button == equip)
 					for(Resource r : Resource.values())
-						playerRes.transferFrom(planetRes, r, playerRes.getQuantity(r));
+						playerRes.transferFrom(planetRes, r, planetRes.getQuantity(r));
 				else if(button == upgrade) {
 					planet.getHomePlanetData().upgradePlanet();
 					
 					if(!planet.getHomePlanetData().canUpgrade())
 						upgrade.setEnabled(false);
 				}
+				
+				getParent().getGame().getSound().play("pickup");
 			}
 		};
 		
