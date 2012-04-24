@@ -26,7 +26,6 @@ public class SpaceGame extends Game {
 			getArt().add("HUD1.png");
 			getArt().add("HUD2.png");
 			getArt().add("HUD3.png");
-			getArt().add("robot.png");
 			getArt().add("layer1.png");
 			getArt().add("layer4.png");
 			getArt().add("explosion.png");
@@ -36,10 +35,13 @@ public class SpaceGame extends Game {
 			getSound().add("blast.wav");
 			getSound().add("pickup.wav");
 			getSound().add("select.wav");
+			getSound().add("ClairDeLune.ogg");
 		}
 		catch(Exception exc) {
 			exc.printStackTrace();
 		}
+		
+		getSound().loop("ClairDeLune");
 		
 		setScreen("Intro", new IntroScreen());
 	}

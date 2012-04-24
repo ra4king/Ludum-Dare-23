@@ -81,7 +81,7 @@ public class PlanetGUI extends Widget {
 						for(Resource r : Resource.values())
 							prr.addQuantity(r,Math.min(max.getQuantity(r) - prr.getQuantity(r), ptr.getQuantity(r)));
 						
-						prr.addQuantity(Resource.SLAVES, Math.min(max.getQuantity(Resource.SLAVES) - planet.getPopulation(), planet.getPopulation()));
+						prr.addQuantity(Resource.SLAVES, Math.min(Math.max(0, max.getQuantity(Resource.SLAVES) - planet.getPopulation()), planet.getPopulation()));
 						
 						getParent().remove(planet);
 						getParent().add(1,new Explosion(planet.getX(),planet.getY(),planet.getWidth()));
