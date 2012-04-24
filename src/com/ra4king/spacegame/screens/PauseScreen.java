@@ -28,13 +28,7 @@ public class PauseScreen extends MenuPage {
 			public void doAction(Button button) {
 				System.exit(0);
 			}
-		}) {
-			public void draw(Graphics2D g) {
-				super.draw(g);
-				
-				System.out.println("I'm being painted!");
-			}
-		});
+		}));
 	}
 	
 	@Override
