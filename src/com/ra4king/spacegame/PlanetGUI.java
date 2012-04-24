@@ -14,13 +14,13 @@ import com.ra4king.gameutils.gui.Widget;
 import com.ra4king.spacegame.resources.Resource;
 import com.ra4king.spacegame.resources.ResourceBank;
 
-public class GUI extends Widget {
+public class PlanetGUI extends Widget {
 	private Planet planet;
 	private boolean expanded;
 	
 	private Button steal, attack;
 	
-	public GUI(Planet planet) {
+	public PlanetGUI(Planet planet) {
 		this.planet = planet;
 	}
 	
@@ -40,14 +40,21 @@ public class GUI extends Widget {
 			@Override
 			public void doAction(Button button) {
 				if(button == steal) {
-					((Space)getParent()).getPlayer().getResources().transfer(planet.getResources(), Resource.WOOD, 50);
-					System.out.println(((Space)getParent()).getPlayer().getResources().getQuantity(Resource.WOOD));
+					ResourceBank prr = ((Space)getParent()).getPlayer().getShip().getResources();
+					ResourceBank max = ((Space)getParent()).getPlayer().getShip().getMaximumValues();
+					ResourceBank ptr = planet.getResources();
+					
+					for(Resource r : Resource.values()) {
+						int toTransfer = Math.min(max.getQuantity(r) - prr.getQuantity(r), (int)(ptr.getQuantity(r) * Math.random() * 0.5) + prr.getQuantity(r));
+						
+						prr.transfer(ptr, r, toTransfer);
+					}
 				}
 				else if(button == attack) {
 					getParent().remove(planet);
 					getParent().add(1,new Explosion(planet.getX(),planet.getY(),planet.getWidth()));
 					
-					getParent().remove(GUI.this);
+					getParent().remove(PlanetGUI.this);
 				}
 			}
 		};

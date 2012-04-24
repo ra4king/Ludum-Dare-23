@@ -41,11 +41,13 @@ public class Space extends GameWorld {
 				}
 			} while (planet == null);
 			
-			planet.getResources().addQuantity(Resource.WOOD, (int)(200 * Math.random()) + 1);
-			planet.getResources().addQuantity(Resource.STONE, (int)(50 * Math.random()) + 1);
-			planet.getResources().addQuantity(Resource.METAL, (int)(30 * Math.random()) + 1);
-			planet.getResources().addQuantity(Resource.OIL, (int)(100 * Math.random()) + 1);
-			planet.getResources().addQuantity(Resource.SLAVES, (int)(200 * Math.random()) + 1);
+			double size = planet.getWidth();
+			
+			planet.getResources().addQuantity(Resource.WOOD, (int)(2 * size * Math.random()) + 1);
+			planet.getResources().addQuantity(Resource.STONE, (int)(size * Math.random()) + 1);
+			planet.getResources().addQuantity(Resource.METAL, (int)(size / 2 * Math.random()) + 1);
+			planet.getResources().addQuantity(Resource.OIL, (int)(size / 2* Math.random()) + 1);
+			planet.getResources().addQuantity(Resource.SLAVES, (int)(size * Math.random()) + 1);
 			
 			add(1, planet);
 		}

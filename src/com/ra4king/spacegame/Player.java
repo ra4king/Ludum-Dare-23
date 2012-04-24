@@ -7,23 +7,40 @@ import java.awt.geom.AffineTransform;
 
 import com.ra4king.gameutils.Input;
 import com.ra4king.gameutils.gameworld.GameComponent;
+import com.ra4king.gameutils.gameworld.GameWorld;
 import com.ra4king.gameutils.util.FastMath;
 import com.ra4king.spacegame.resources.ResourceBank;
 
 public class Player extends GameComponent {
-	private ResourceBank resources;
+	private ResourceBank motherPlanetResources;
+	
 	private final double ACCELERATION = 700, MAX_SPEED = 700, RESISTANCE = 100;
 	private double direction, speed;
 	private int currentFrame;
 	
+	private Ship ship;
+	
 	public Player() {
 		super(50,50,90,50);
 		
-		resources = new ResourceBank();
+		motherPlanetResources = new ResourceBank();
+		
+		ship = new Ship();
 	}
 	
-	public ResourceBank getResources() {
-		return resources;
+	@Override
+	public void init(GameWorld world) {
+		super.init(world);
+		
+		world.add(3,new PlayerGUI(this));
+	}
+	
+	public ResourceBank getMotherPlanetResources() {
+		return motherPlanetResources;
+	}
+	
+	public Ship getShip() {
+		return ship;
 	}
 	
 	@Override
@@ -63,22 +80,8 @@ public class Player extends GameComponent {
 		setX(getX() + speed * FastMath.cos(direction) * delta);
 		setY(getY() + speed * FastMath.sin(direction) * delta);
 		
-//		for(Entity e : getParent().getEntities())
-//			if(e instanceof Planet && e.contains(getCenterX(), getCenterY())) {
-//				if(getParent().getGame().getInput().isKeyDown(KeyEvent.VK_E))
-//					getParent().getGame().setScreen("Action",new ActionScreen((Space)getParent(),(Planet)e));
-//				
-//				break;
-//			}
-		
 		getParent().setXOffset(-getCenterX() + getParent().getWidth()/2);
 		getParent().setYOffset(-getCenterY() + getParent().getHeight()/2);
-		
-//		MouseEvent me;
-//		if((me = i.isMouseDown()) != null && System.nanoTime() - lastTime >= 1e9/10) {
-//			lastTime = System.nanoTime();
-//			getParent().add(3,new Bullet(getCenterX() - 5, getCenterY() - 5, Math.atan2(me.getY() - (getScreenY() + getHeight()/2), me.getX() - (getScreenX() + getWidth()/2))));
-//		}
 	}
 	
 	@Override

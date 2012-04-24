@@ -16,7 +16,7 @@ public class Planet extends GameComponent {
 	
 	private int strength, population;
 	
-	private GUI gui;
+	private PlanetGUI gui;
 	private boolean isGuiShown;
 	
 	private String image;
@@ -27,7 +27,7 @@ public class Planet extends GameComponent {
 		
 		resources = new ResourceBank();
 		
-		gui = new GUI(this);
+		gui = new PlanetGUI(this);
 	}
 	
 	@Override
