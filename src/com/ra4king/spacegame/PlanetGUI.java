@@ -13,12 +13,16 @@ import com.ra4king.gameutils.gui.Button;
 import com.ra4king.gameutils.gui.Widget;
 import com.ra4king.spacegame.resources.Resource;
 import com.ra4king.spacegame.resources.ResourceBank;
+import com.ra4king.spacegame.screens.GameOverScreen;
+import com.ra4king.spacegame.screens.WinScreen;
 
 public class PlanetGUI extends Widget {
 	private Planet planet;
 	private boolean expanded;
 	
 	private Button steal, attack;
+	
+	private int stealCount = 0;
 	
 	public PlanetGUI(Planet planet) {
 		this.planet = planet;
@@ -44,17 +48,51 @@ public class PlanetGUI extends Widget {
 					ResourceBank max = ((Space)getParent()).getPlayer().getShip().getMaximumValues();
 					ResourceBank ptr = planet.getResources();
 					
+					boolean stoleAnything = false;
+					
 					for(Resource r : Resource.values()) {
-						int toTransfer = Math.min(max.getQuantity(r) - prr.getQuantity(r), (int)(ptr.getQuantity(r) * Math.random() * 0.5) + prr.getQuantity(r));
+						int toTransfer = Math.min(max.getQuantity(r) - prr.getQuantity(r), (int)(ptr.getQuantity(r) * Math.random() * 0.3));
 						
-						prr.transfer(ptr, r, toTransfer);
+						if(toTransfer > 0) {
+							prr.transfer(ptr, r, toTransfer);
+							stoleAnything = true;
+						}
+					}
+					
+					if(stoleAnything) {
+						if(stealCount > 0)
+							((Space)getParent()).getPlayer().getShip().applyDamage(10);
+						
+						stealCount++;
 					}
 				}
 				else if(button == attack) {
-					getParent().remove(planet);
-					getParent().add(1,new Explosion(planet.getX(),planet.getY(),planet.getWidth()));
+					Player p = ((Space)getParent()).getPlayer();
 					
-					getParent().remove(PlanetGUI.this);
+					p.getShip().applyDamage(planet.getStrength());
+					
+					if(p.getShip().getHealth() > 0) {
+						ResourceBank prr = p.getShip().getResources();
+						ResourceBank max = p.getShip().getMaximumValues();
+						ResourceBank ptr = planet.getResources();
+						
+						for(Resource r : Resource.values())
+							prr.addQuantity(r,Math.min(max.getQuantity(r) - prr.getQuantity(r), ptr.getQuantity(r)));
+						
+						prr.addQuantity(Resource.SLAVES, Math.min(max.getQuantity(Resource.SLAVES) - planet.getPopulation(), planet.getPopulation()));
+						
+						getParent().remove(planet);
+						getParent().add(1,new Explosion(planet.getX(),planet.getY(),planet.getWidth()));
+						
+						getParent().remove(PlanetGUI.this);
+						
+						p.getShip().destroyPlanet();
+						
+						if(p.getShip().getPlanetsDestroyedNum() == 50)
+							getParent().getGame().setScreen("Win Screen", new WinScreen());
+					}
+					else
+						getParent().getGame().setScreen("Game Over", new GameOverScreen());
 				}
 			}
 		};

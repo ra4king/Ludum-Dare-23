@@ -7,13 +7,17 @@ public class Ship {
 	private ResourceBank resources;
 	private ResourceBank maximum;
 	
-	private int shipLevel, health, metalNeededToUpgrade, oilNeededToUpgrade, slavesNeededToUpgrade;
+	private int shipLevel, metalNeededToUpgrade, oilNeededToUpgrade, slavesNeededToUpgrade;
+	private int health, maxHealth = 100, metalNeededToFix, oilNeededToFix, slavesNeededToFix;
+	
+	private int planetsDestroyed;
 	
 	public Ship() {
 		resources = new ResourceBank();
 		maximum = new ResourceBank();
 		
 		upgradeShip();
+		fixShip();
 	}
 	
 	public ResourceBank getResources() {
@@ -22,6 +26,14 @@ public class Ship {
 	
 	public ResourceBank getMaximumValues() {
 		return maximum;
+	}
+	
+	public int getPlanetsDestroyedNum() {
+		return planetsDestroyed;
+	}
+	
+	public void destroyPlanet() {
+		planetsDestroyed++;
 	}
 	
 	public int getMetalNeededToUpgrade() {
@@ -48,6 +60,24 @@ public class Ship {
 		health = Math.max(health - damage, 0);
 	}
 	
+	public boolean fixShip() {
+		if(health == maxHealth ||
+		   resources.getQuantity(Resource.METAL) < metalNeededToFix ||
+		   resources.getQuantity(Resource.SLAVES)< slavesNeededToFix ||
+		   resources.getQuantity(Resource.OIL) < oilNeededToFix)
+			return false;
+		
+		resources.subtractQuantity(Resource.METAL, metalNeededToUpgrade);
+		resources.subtractQuantity(Resource.OIL, oilNeededToUpgrade);
+		
+		metalNeededToFix += 50;
+		slavesNeededToFix += 10;
+		
+		health = maxHealth;
+		
+		return true;
+	}
+	
 	public boolean upgradeShip() {
 		if(resources.getQuantity(Resource.METAL) < metalNeededToUpgrade ||
 		   resources.getQuantity(Resource.SLAVES)< slavesNeededToUpgrade ||
@@ -55,6 +85,8 @@ public class Ship {
 			return false;
 		
 		shipLevel++;
+		
+		maxHealth += 50;
 		
 		maximum.addQuantity(Resource.WOOD, 200);
 		maximum.addQuantity(Resource.STONE, 100);

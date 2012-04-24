@@ -17,7 +17,7 @@ public class PlayerGUI extends Widget {
 	private Player player;
 	private boolean expanded;
 	
-	private Button upgrade;
+	private Button upgrade, fixShip;
 	
 	public PlayerGUI(Player player) {
 		this.player = player;
@@ -41,11 +41,22 @@ public class PlayerGUI extends Widget {
 		Button.Action action = new Button.Action() {
 			@Override
 			public void doAction(Button button) {
+				if(button == upgrade)
+					player.getShip().upgradeShip();
 				
+				if(button == fixShip)
+					player.getShip().fixShip();
 			}
 		};
 		
-		upgrade = new Button("Upgrade Ship",12,235,120,25,25,true,action) {
+		upgrade = new Button("Upgrade Ship",12,235,110,25,25,true,action) {
+			public void draw(Graphics2D g) {
+				g.setTransform(new AffineTransform());
+				super.draw(g);
+			}
+		};
+		
+		fixShip = new Button("Fix Ship", 12, 235, 150, 25, 25, true, action) {
 			public void draw(Graphics2D g) {
 				g.setTransform(new AffineTransform());
 				super.draw(g);
@@ -60,14 +71,17 @@ public class PlayerGUI extends Widget {
 		super.hide();
 		
 		getParent().remove(upgrade);
+		getParent().remove(fixShip);
 	}
 	
 	private void updateButtons() {
 		if(expanded) {
 			getParent().add(4,upgrade);
+			getParent().add(4,fixShip);
 		}
 		else {
 			getParent().remove(upgrade);
+			getParent().remove(fixShip);
 		}
 	}
 	

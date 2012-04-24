@@ -25,7 +25,9 @@ public class Space extends GameWorld {
 		player = (Player) add(2, new Player());
 		add(0, new Background(player));
 		
-		for (int a = 0; a < 100; a++) {
+		add(1, new Planet(30,30,40,new Color((int)(256 * Math.random()), (int)(256 * Math.random()),(int)(256 * Math.random()),(int)(128 * Math.random()))));
+		
+		for (int a = 0; a < 50; a++) {
 			Planet planet;
 			do {
 				planet = new Planet(Math.random() * 5000 - (5000 - getWidth())/ 2,
@@ -34,7 +36,7 @@ public class Space extends GameWorld {
 									new Color((int)(256 * Math.random()), (int)(256 * Math.random()),(int)(256 * Math.random()),(int)(128 * Math.random())));
 				
 				for (Entity comp : getEntities()) {
-					if ((comp instanceof Planet || comp instanceof Player) && comp.intersects(planet.getX() - planet.getWidth()/2,planet.getY() - planet.getHeight()/2,planet.getWidth() * 2, planet.getHeight() * 2)) {
+					if ((comp instanceof Planet || comp instanceof Player) && comp.intersects(planet.getX() - planet.getWidth(),planet.getY() - planet.getHeight(),planet.getWidth() * 3, planet.getHeight() * 3)) {
 						planet = null;
 						break;
 					}
@@ -43,6 +45,8 @@ public class Space extends GameWorld {
 			
 			double size = planet.getWidth();
 			
+			planet.setStrength((int)(size / 2 * Math.random()));
+			planet.setPopulation((int)(size * Math.random()));
 			planet.getResources().addQuantity(Resource.WOOD, (int)(2 * size * Math.random()) + 1);
 			planet.getResources().addQuantity(Resource.STONE, (int)(size * Math.random()) + 1);
 			planet.getResources().addQuantity(Resource.METAL, (int)(size / 2 * Math.random()) + 1);

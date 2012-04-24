@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import com.ra4king.gameutils.Game;
+import com.ra4king.spacegame.screens.IntroScreen;
 
 public class SpaceGame extends Game {
 	private static final long serialVersionUID = 5597406795403538868L;
@@ -38,7 +39,7 @@ public class SpaceGame extends Game {
 			exc.printStackTrace();
 		}
 		
-		setScreen("Space",new Space());
+		setScreen("Intro", new IntroScreen());
 	}
 	
 	public void paint(Graphics2D g) {
