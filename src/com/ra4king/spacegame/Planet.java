@@ -9,7 +9,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 import com.ra4king.gameutils.Art;
-import com.ra4king.gameutils.Element;
 import com.ra4king.gameutils.gameworld.GameComponent;
 import com.ra4king.gameutils.gameworld.GameWorld;
 import com.ra4king.gameutils.gui.Widget;

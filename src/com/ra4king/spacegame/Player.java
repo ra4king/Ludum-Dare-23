@@ -9,7 +9,6 @@ import com.ra4king.gameutils.Input;
 import com.ra4king.gameutils.gameworld.GameComponent;
 import com.ra4king.gameutils.gameworld.GameWorld;
 import com.ra4king.gameutils.util.FastMath;
-import com.ra4king.spacegame.resources.ResourceBank;
 
 public class Player extends GameComponent {
 	private final double ACCELERATION = 700, MAX_SPEED = 700, RESISTANCE = 100;
