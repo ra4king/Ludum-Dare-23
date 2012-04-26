@@ -1,0 +1,12 @@
+Link: 
+Ratings:
+ - Overall:    <1-5>
+ - Innovation: <1-5>
+ - Fun:        <1-5>
+ - Theme:      <1-5>
+ - Graphics:   <1-5>
+ - Audio:      <1-5>
+ - Humor:      <1-5>
+ - Mood:       <1-5>
+Comment:
+
