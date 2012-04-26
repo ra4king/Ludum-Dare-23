@@ -18,7 +18,7 @@ import com.ra4king.spacegame.screens.WinScreen;
 
 public class PlanetGUI extends Widget {
 	private Planet planet;
-	private boolean expanded;
+	private boolean expanded = true;
 	
 	private Button steal, attack;
 	
@@ -33,7 +33,7 @@ public class PlanetGUI extends Widget {
 		super.init(screen);
 		
 		GameWorld g = (GameWorld)screen;
-		setBounds(g.getWidth() - 318, g.getHeight() - 154, 258, 13);
+		setBounds(g.getWidth() - 318, g.getHeight() - 26, 258, 13);
 	}
 	
 	@Override
