@@ -34,8 +34,26 @@ public class SpaceGame extends Game {
 				getArt().add("planet".concat(String.valueOf(a)).concat(".png"));
 			
 			getSound().add("blast.wav");
+		}
+		catch(Exception exc) {
+			exc.printStackTrace();
+		}
+		
+		try {
 			getSound().add("pickup.wav");
+		}
+		catch(Exception exc) {
+			exc.printStackTrace();
+		}
+		
+		try {
 			getSound().add("select.wav");
+		}
+		catch(Exception exc) {
+			exc.printStackTrace();
+		}
+		
+		try {
 			getSound().add("ClairDeLune.ogg");
 		}
 		catch(Exception exc) {
